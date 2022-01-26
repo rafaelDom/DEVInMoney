@@ -7,8 +7,12 @@ import br.devinmoney.interfaces.IConta;
 import br.devinmoney.interfaces.IRentabilidadePopupanca;
 
 public class ContaPoupanca extends Conta implements IConta, IRentabilidadePopupanca{
-
 	private List<Transacao> extratoConta = new ArrayList<Transacao>();
+	
+	public ContaPoupanca(String nome, String cpf, Double rendaMensal, Agencia agencia, Double saldo) {
+		super(nome, cpf, rendaMensal, agencia, saldo);
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Override
 	public boolean sacar(Double valor) {

@@ -9,6 +9,11 @@ import br.devinmoney.interfaces.IConta;
 public class ContaCorrente extends Conta implements IConta, IChequeEspecial{
 	private List<Transacao> extratoConta = new ArrayList<Transacao>();
 	
+	public ContaCorrente(String nome, String cpf, Double rendaMensal, Agencia agencia, Double saldo) {
+		super(nome, cpf, rendaMensal, agencia, saldo);
+		// TODO Auto-generated constructor stub
+	}	
+	
 	@Override
 	public boolean sacar(Double valor) {
 		if(this.getSaldo() + this.limiteChequeEspecial(this.getRendaMensal()) >= valor) {

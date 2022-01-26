@@ -4,6 +4,12 @@ public class Agencia {
 	private String codigo;
 	private String Cidade;
 	
+	public Agencia(String codigo, String cidade) {
+		super();
+		this.codigo = codigo;
+		Cidade = cidade;
+	}
+	
 	public String getCodigo() {
 		return codigo;
 	}

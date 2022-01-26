@@ -6,9 +6,16 @@ import java.util.List;
 
 import br.devinmoney.enums.Investimento;
 import br.devinmoney.interfaces.IConta;
+import br.devinmoney.interfaces.IContaInvestimento;
 
-public class ContaInvestimento extends Conta implements IConta{
+public class ContaInvestimento extends Conta implements IConta, IContaInvestimento{
 private List<Transacao> extratoConta = new ArrayList<Transacao>();
+
+	public ContaInvestimento(String nome, String cpf, Double rendaMensal, Agencia agencia,
+			Double saldo) {
+		super(nome, cpf, rendaMensal, agencia, saldo);
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Override
 	public boolean sacar(Double valor) {
@@ -65,6 +72,7 @@ private List<Transacao> extratoConta = new ArrayList<Transacao>();
 		extratoConta.add(transacao);
 	}
 	
+	@Override
 	public void rendimentoAnualInvestimento(Investimento investimento) {
 		List<Investimento> listaInvestimento = Arrays.asList(Investimento.values());
 		for (Investimento inv:listaInvestimento) {
@@ -74,12 +82,23 @@ private List<Transacao> extratoConta = new ArrayList<Transacao>();
 		}
 	}
 	
+	@Override
 	public void simularRendimentoAnual(Investimento investimento) {
 		Double valorRendimentoAnual;
 		valorRendimentoAnual = this.getSaldo() * (investimento.getRendimentoAnual() / 100);
 		
 		System.out.println("O valor do rendimento anual para o investimento " + investimento.name() + " com a rentabilidade anual de " + investimento.getRendimentoAnual() + " é de: " + String.format("%.2f", valorRendimentoAnual));
 		System.out.println("Com base no saldo atual de: " + this.getSaldo());
+		
+	}
+	
+	@Override
+	public void realizarInvestimento(Investimento investimento, Double valor) {
+		Double valorRendimentoAnual;
+		valorRendimentoAnual = valor * (investimento.getRendimentoAnual() / 100);
+		
+		System.out.println("O valor do investimento é: " + valor + " com a rentabilidade anual de " + investimento.getRendimentoAnual());
+		System.out.println("Esse valor renderá anualmente: " + String.format("%.2f", valorRendimentoAnual));
 		
 	}
 

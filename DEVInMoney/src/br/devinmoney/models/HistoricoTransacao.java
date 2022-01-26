@@ -2,28 +2,21 @@ package br.devinmoney.models;
 
 import java.time.LocalDate;
 
-public class Transacao {
-	private LocalDate data;
+public class HistoricoTransacao {
 	private Conta contaOrigem;
 	private Conta contaDestino;
 	private Double valor;
-	private String tipo;
+	private LocalDate data;
 	
-	public Transacao(LocalDate data, Conta contaOrigem, Conta contaDestino, Double valor, String tipo) {
+	
+	public HistoricoTransacao(Conta contaOrigem, Conta contaDestino, Double valor) {
 		super();
-		this.data = data;
 		this.contaOrigem = contaOrigem;
 		this.contaDestino = contaDestino;
 		this.valor = valor;
-		this.tipo = tipo;
+		this.data = LocalDate.now();
 	}
 	
-	public LocalDate getData() {
-		return data;
-	}
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
 	public Conta getContaOrigem() {
 		return contaOrigem;
 	}
@@ -42,24 +35,19 @@ public class Transacao {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
-	
-	public String getTipo() {
-		return tipo;
+	public LocalDate getData() {
+		return data;
 	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
 	@Override
 	public String toString() {
-		return "Transacao [data=" + data + ", contaOrigem=" + contaOrigem.getConta() + ", nomeTitular=" + contaOrigem.getNome() + ", contaDestino=" + contaDestino.getConta()
-				+ ", nomeTitular=" + contaOrigem.getNome() + ", valor=" + valor + ", tipo=" + tipo + "]";
+		return "HistoricoTransacao [contaOrigem=" + contaOrigem.getConta() + ", contaDestino=" + contaDestino.getConta() + ", valor=" + valor
+				+ ", data=" + data + "]";
 	}
 	
-	
-
-
 	
 	
 	
