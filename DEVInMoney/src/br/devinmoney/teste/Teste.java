@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import br.devinmoney.enums.Investimento;
+import br.devinmoney.menu.Menu;
 import br.devinmoney.models.Agencia;
 import br.devinmoney.models.Conta;
 import br.devinmoney.models.ContaCorrente;
@@ -17,8 +18,11 @@ public class Teste {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Teste t1 = new Teste();
-		t1.testesContaCorrente();
+		//Teste t1 = new Teste();
+		//t1.testesContaCorrente();
+		
+		Menu menu = new Menu();
+		menu.menuPrincipal();
 		
 	
 		
