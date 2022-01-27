@@ -9,7 +9,7 @@ public class Menu {
 		System.out.println("Digite a opção desejada:");
 		System.out.println("1 - Conta");
 		System.out.println("2 - Relatórios");
-		System.out.println("3 - Sair");
+		System.out.println("3 - Finalizar Programa");
 	}
 
 	public void menuConta() {
@@ -21,7 +21,7 @@ public class Menu {
 		System.out.println("1 - Cadastrar");
 		System.out.println("2 - Menu Operações");
 		System.out.println("3 - Voltar Menu Principal");
-		System.out.println("4 - Sair");
+		System.out.println("4 - Finalizar Programa");
 	}
 
 	public void menuOpcoesCadastroConta() {
@@ -34,7 +34,14 @@ public class Menu {
 		System.out.println("2 - Conta Poupança");
 		System.out.println("3 - Conta Investimento");
 		System.out.println("4 - Voltar Menu Principal");
-		System.out.println("5 - Sair");
+		System.out.println("5 - Finalizar Programa");
+	}
+	
+	public void menuOpcoesAgencia() {
+		System.out.println("Digite a opção da agência desejada:");
+		System.out.println("1 - Florianópolis");
+		System.out.println("2 - São José");
+		System.out.println("3 - Finalizar Programa");
 	}
 
 }

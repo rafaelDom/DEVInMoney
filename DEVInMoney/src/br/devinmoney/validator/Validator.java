@@ -7,6 +7,6 @@ public class Validator {
 	}
 
 	public boolean validaRendaMensal(String rendaMensal) {
-		return rendaMensal.matches("^\\d+,*\\.*\\d{0,2}$");
+		return rendaMensal.matches("^(0|[1-9]\\d{0,2}(\\d{3})*)\\.\\d{2}$");
 	}
 }

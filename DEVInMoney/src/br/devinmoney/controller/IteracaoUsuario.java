@@ -2,7 +2,12 @@ package br.devinmoney.controller;
 
 import java.util.Scanner;
 
+import br.devinmoney.dao.DAOFake;
 import br.devinmoney.menu.Menu;
+import br.devinmoney.models.Agencia;
+import br.devinmoney.models.ContaCorrente;
+import br.devinmoney.models.ContaInvestimento;
+import br.devinmoney.models.ContaPoupanca;
 import br.devinmoney.utils.ValidadorCPF;
 import br.devinmoney.validator.Validator;
 
@@ -61,7 +66,7 @@ public class IteracaoUsuario {
 				System.out.println("Opção digitada é inválida!!! Digite uma opção válida do Menu!!!");
 				leitor.next();
 			}
-		} while (opcaoMenu != 3);
+		} while (opcaoMenu != 4);
 
 		return "";
 
@@ -69,12 +74,80 @@ public class IteracaoUsuario {
 
 	public Object cadastrarContaCorrente() {
 		System.out.println("### Cadastro de Conta Corrente ###");
-		this.getInputNome();
-		this.getInputCPF();
-		this.getInputRendaMensal();
-
-		return "";
+		String nomeCompleto = this.getInputNome();
+		String cpf = this.getInputCPF();
+		Double rendaMensal = Double.parseDouble(this.getInputRendaMensal());
+		int opcaoAgencia = this.getAgencia();
+		String codigo = null;
+		String cidade = null;
+		
+		if(opcaoAgencia == 1) {
+			codigo = "001";
+			cidade = "Florianópolis";
+		}else if(opcaoAgencia == 2) {
+			codigo = "002";
+			cidade = "São José";
+		}
+		Agencia agencia = new Agencia(codigo, cidade);
+		ContaCorrente contaCorrente = new ContaCorrente(nomeCompleto, cpf, rendaMensal, agencia, 0.0);
+		DAOFake.contasCorrenteCadastradas.add(contaCorrente);
+		
+		System.out.println("Conta Corrente cadastrada com sucesso!!!");
+		
+		return this.menuPrincipal();
 	}
+	
+	public Object cadastrarContaPoupanca() {
+		System.out.println("### Cadastro de Conta Poupança ###");
+		String nomeCompleto = this.getInputNome();
+		String cpf = this.getInputCPF();
+		Double rendaMensal = Double.parseDouble(this.getInputRendaMensal());
+		int opcaoAgencia = this.getAgencia();
+		String codigo = null;
+		String cidade = null;
+		
+		if(opcaoAgencia == 1) {
+			codigo = "001";
+			cidade = "Florianópolis";
+		}else if(opcaoAgencia == 2) {
+			codigo = "002";
+			cidade = "São José";
+		}
+		Agencia agencia = new Agencia(codigo, cidade);
+		ContaPoupanca contaPoupanca = new ContaPoupanca(nomeCompleto, cpf, rendaMensal, agencia, 0.0);
+		DAOFake.contasPoupancaCadastradas.add(contaPoupanca);
+		
+		System.out.println("Conta Poupança cadastrada com sucesso!!!");
+		
+		return this.menuPrincipal();
+	}
+	
+	public Object cadastrarContaInvestimento() {
+		System.out.println("### Cadastro de Conta Investimento ###");
+		String nomeCompleto = this.getInputNome();
+		String cpf = this.getInputCPF();
+		Double rendaMensal = Double.parseDouble(this.getInputRendaMensal());
+		int opcaoAgencia = this.getAgencia();
+		String codigo = null;
+		String cidade = null;
+		
+		if(opcaoAgencia == 1) {
+			codigo = "001";
+			cidade = "Florianópolis";
+		}else if(opcaoAgencia == 2) {
+			codigo = "002";
+			cidade = "São José";
+		}
+		Agencia agencia = new Agencia(codigo, cidade);
+		ContaInvestimento contaInvestimento = new ContaInvestimento(nomeCompleto, cpf, rendaMensal, agencia, 0.0);
+
+		DAOFake.contasInvestimentoCadastradas.add(contaInvestimento);
+		
+		System.out.println("Conta Investimento cadastrada com sucesso!!!");
+		
+		return this.menuPrincipal();
+	}
+
 
 	public String getInputNome() {
 		boolean validador = false;
@@ -117,8 +190,11 @@ public class IteracaoUsuario {
 				if (opcaoMenu == 1) {
 					return this.cadastrarContaCorrente();
 				} else if (opcaoMenu == 2) {
+					return this.cadastrarContaPoupanca();
 				} else if (opcaoMenu == 3) {
+					return this.cadastrarContaInvestimento();
 				} else if (opcaoMenu == 4) {
+					return this.menuPrincipal();
 				} else if (opcaoMenu == 5) {
 					System.out.println("Programa finalizado!!! Volte sempre!!!");
 					System.exit(0);
@@ -129,7 +205,7 @@ public class IteracaoUsuario {
 				System.out.println("Opção digitada é inválida!!! Digite uma opção válida do Menu!!!");
 				leitor.next();
 			}
-		} while (opcaoMenu != 3);
+		} while (opcaoMenu != 5);
 
 		return opcaoMenu;
 	}
@@ -168,7 +244,7 @@ public class IteracaoUsuario {
 		String rendaMensal = null;
 
 		do {
-			System.out.println("Digite a renda mensal ou 0 para finalizar o programa:");
+			System.out.println("Digite a renda mensal (Exemplo: 980.60 ou 3500.00) ou 0 para finalizar o programa:");
 			try {
 				rendaMensal = leitor.nextLine();
 
@@ -179,11 +255,11 @@ public class IteracaoUsuario {
 					validador = true;
 				} else {
 					System.out.println(
-							"Renda Mensal digitada é inválido!!! Digite A renda mensal ou 0 para finalizar o programa!!!");
+							"Renda Mensal digitada é inválido!!! Digite A renda mensal (Exemplo: 980.60 ou 3500.00) ou 0 para finalizar o programa!!!");
 				}
 			} catch (Exception e) {
 				System.out.println(
-						"Renda Mensal digitada é inválido!!! Digite A renda mensal ou 0 para finalizar o programa!!!");
+						"Renda Mensal digitada é inválido!!! Digite A renda mensal (Exemplo: 980.60 ou 3500.00) ou 0 para finalizar o programa!!!");
 				leitor.next();
 			}
 		} while (!validador);
@@ -191,4 +267,32 @@ public class IteracaoUsuario {
 		return rendaMensal;
 
 	}
+	
+	public int getAgencia() {
+		int opcaoMenu = 0;
+
+		do {
+			menu.menuOpcoesAgencia();
+			try {
+				opcaoMenu = leitor.nextInt();
+
+				if (opcaoMenu == 1) {
+					return 1;
+				} else if (opcaoMenu == 2) {
+					return 2;
+				} else if (opcaoMenu == 3) {
+					System.out.println("Programa finalizado!!! Volte sempre!!!");
+					System.exit(0);
+				} else {
+					System.out.println("Opção digitada é inválida!!! Digite uma opção válida do Menu!!!");
+				}
+			} catch (Exception e) {
+				System.out.println("Opção digitada é inválida!!! Digite uma opção válida do Menu!!!");
+				leitor.next();
+			}
+		} while (opcaoMenu != 3);
+
+		return 0;
+	}
+
 }
