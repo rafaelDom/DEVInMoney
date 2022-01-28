@@ -9,6 +9,6 @@ public interface IConta {
 	public boolean depositar(Double valor);
 	public Double saldo();
 	public void salvarTransacao(Transacao transacao);
-	public boolean transferir(Conta conta, Double valor);
+	public boolean transferir(Conta contaOrigem, Conta contaDestino, Double valor);
 	public boolean alterarDadosCadastrais(ContaCorrente contaCorrente);
 }

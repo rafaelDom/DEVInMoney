@@ -23,6 +23,7 @@ public abstract class Conta {
 		this.agencia = agencia;
 		this.saldo = saldo;
 		this.conta = GeradorConta.getProximaConta();
+		System.out.println("### O número da Conta Gerado é: " + this.conta + " ###" );
 	}
 	
 	public String getNome() {
@@ -83,7 +84,7 @@ public abstract class Conta {
 	@Override
 	public String toString() {
 		return "Conta [nome=" + nome + ", cpf=" + cpf + ", rendaMensal=" + rendaMensal + ", conta=" + conta
-				+ ", agencia=" + agencia + ", saldo=" + saldo + "]";
+				+ ", agencia=" + agencia.getCodigo() + " - " + agencia.getCidade() + ", saldo=" + saldo + "]";
 	}
 	
 	public void extrato() {

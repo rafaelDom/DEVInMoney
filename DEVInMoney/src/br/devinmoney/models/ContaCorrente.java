@@ -42,9 +42,10 @@ public class ContaCorrente extends Conta implements IConta, IChequeEspecial{
 	}
 
 	@Override
-	public boolean transferir(Conta conta, Double valor) {
-		if(!conta.equals(this)) {
-			conta.setSaldo(conta.getRendaMensal() + valor);
+	public boolean transferir(Conta contaOrigem, Conta contaDestino, Double valor){
+		if(!contaDestino.equals(contaOrigem)) {
+			contaDestino.setSaldo(contaDestino.getSaldo() + valor);
+			contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
 			return true;
 		}
 		return false;

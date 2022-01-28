@@ -36,7 +36,7 @@ public class Teste {
 		contasCorrente.add(contaCorrente2);
 		System.out.println("Numero da conta: " + contaCorrente.getConta());
 		System.out.println("Numero da conta: " + contaCorrente2.getConta());
-		contaCorrente.transferir(contaCorrente2, 50.00);
+		//contaCorrente.transferir(contaCorrente2, 50.00);
 		Transacao transacao = new Transacao(LocalDate.now(), contaCorrente, contaCorrente2, 50.00, "DEP");
 		contaCorrente.salvarTransacao(transacao);;
 		Relatorio relatorio = new Relatorio();

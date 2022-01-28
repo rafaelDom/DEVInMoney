@@ -45,14 +45,15 @@ private List<Transacao> extratoConta = new ArrayList<Transacao>();
 	}
 
 	@Override
-	public boolean transferir(Conta conta, Double valor) {
-		if(!conta.equals(this)) {
-			conta.setSaldo(conta.getRendaMensal() + valor);
+	public boolean transferir(Conta contaOrigem, Conta contaDestino, Double valor){
+		if(!contaDestino.equals(contaOrigem)) {
+			contaDestino.setSaldo(contaDestino.getSaldo() + valor);
+			contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean alterarDadosCadastrais(ContaCorrente contaCorrente) {
 		if(contaCorrente.getCpf().equals(this.getCpf())) {
