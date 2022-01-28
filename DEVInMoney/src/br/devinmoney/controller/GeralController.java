@@ -13,6 +13,9 @@ public class GeralController {
 	ValidadorCPF validatorCPF = new ValidadorCPF();
 	Scanner leitor = new Scanner(System.in);
 	ContaCorrenteController ccController = new ContaCorrenteController();
+	ContaPoupancaController cpController = new ContaPoupancaController();
+	ContaInvestimentoController ciController = new ContaInvestimentoController();
+	RelatorioController relController = new RelatorioController();
 	
 	public Object menuPrincipal() {
 		int opcaoMenu = 0;
@@ -24,6 +27,7 @@ public class GeralController {
 				if (opcaoMenu == 1) {
 					return this.menuOpcoesCadastroConta();
 				} else if (opcaoMenu == 2) {
+					relController.menuOpcoesRelatorios();
 				} else if (opcaoMenu == 3) {
 					System.out.println("Programa finalizado!!! Volte sempre!!!");
 					System.exit(0);
@@ -37,7 +41,7 @@ public class GeralController {
 		} while (opcaoMenu != 3);
 		return "";
 	}
-	
+
 	public Object getInputNome() {
 		boolean validador = false;
 		String nome = null;
@@ -66,7 +70,7 @@ public class GeralController {
 		return nome;
 
 	}
-	
+
 	public Object menuOpcoesCadastroConta() {
 		int opcaoMenu = 0;
 
@@ -78,11 +82,11 @@ public class GeralController {
 				if (opcaoMenu == 1) {
 					return ccController.acessarCadastrarConta();
 				} else if (opcaoMenu == 2) {
-
+					return cpController.acessarCadastrarConta();
 				} else if (opcaoMenu == 3) {
-
+					return ciController.acessarCadastrarConta();
 				} else if (opcaoMenu == 4) {
-
+					return this.menuPrincipal();
 				} else if (opcaoMenu == 5) {
 					System.out.println("Programa finalizado!!! Volte sempre!!!");
 					System.exit(0);
@@ -181,11 +185,11 @@ public class GeralController {
 
 		return 0;
 	}
-	
+
 	public Object getInputValor() {
 		boolean validador = false;
 		String valor = null;
-		
+
 		do {
 			System.out.println("Digite o valor (Exemplo: 50.60 ou 1500.00) ou 0 para voltar ao Menu Inicial:");
 			try {
@@ -210,7 +214,7 @@ public class GeralController {
 		return valor;
 
 	}
-	
+
 	public Object continuarSair() {
 		int opcaoMenu = 0;
 
@@ -227,26 +231,53 @@ public class GeralController {
 			System.exit(0);
 		}
 		return "";
-	
+
 	}
 
 	public Object getInputContaTransferir() {
 		Conta contaTransferir = null;
 		boolean validador = false;
 		int numeroConta = 0;
-		
+		int tipoConta = 0;
+
 		do {
-			System.out.println("Digite o numero da conta destino:");
+			System.out.println("Digite o numero da conta destino ou 0 para voltar ao Menu Principal:");
 			try {
 				numeroConta = leitor.nextInt();
 
 				if (numeroConta == 0) {
 					return this.menuPrincipal();
 				}
+
+				do {
+					menu.tipoConta();
+					try {
+						tipoConta = leitor.nextInt();
+
+						if (tipoConta == 1) {
+							break;
+						} else if (tipoConta == 2) {
+							break;
+						} else if (tipoConta == 3) {
+							break;
+						} else {
+							System.out.println("Tipo de conta digitado é inválido!!! Entre com o tipo de conta!!!");
+						}
+					} catch (Exception e) {
+						System.out.println("Tipo de conta digitado é inválido!!! Entre com o tipo de conta!!!");
+						leitor.next();
+					}
+				} while (tipoConta != 0);
 				
-				contaTransferir = validator.contaCorrenteCadastrada(numeroConta);
-				
-				if ( contaTransferir != null) {
+				if(tipoConta == 1) {
+					contaTransferir = validator.contaCorrenteCadastrada(numeroConta);
+				}else if(tipoConta == 2) {
+					contaTransferir = validator.contaPoupancaCadastrada(numeroConta);
+				}else if(tipoConta == 3) {
+					contaTransferir = validator.contaInvestimentoCadastrada(numeroConta);
+				}
+
+				if (contaTransferir != null) {
 					leitor.nextLine();
 					validador = true;
 				} else {

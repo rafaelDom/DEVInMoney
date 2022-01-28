@@ -9,8 +9,6 @@ import br.devinmoney.menu.Menu;
 import br.devinmoney.models.Agencia;
 import br.devinmoney.models.Conta;
 import br.devinmoney.models.ContaCorrente;
-import br.devinmoney.models.ContaInvestimento;
-import br.devinmoney.models.ContaPoupanca;
 import br.devinmoney.models.Transacao;
 import br.devinmoney.validator.Validator;
 
@@ -49,57 +47,6 @@ public class ContaCorrenteController {
 		geralController.continuarSair();
 		
 		return this.acessarCadastrarConta();
-	}
-
-	public Object cadastrarContaPoupanca() {
-		System.out.println("### Cadastro de Conta Poupança ###");
-		String nomeCompleto = geralController.getInputNome().toString();
-		String cpf = geralController.getInputCPF().toString();
-		Double rendaMensal = Double.parseDouble(geralController.getInputRendaMensal().toString());
-		int opcaoAgencia = (int) geralController.getAgencia();
-		String codigo = null;
-		String cidade = null;
-
-		if (opcaoAgencia == 1) {
-			codigo = "001";
-			cidade = "Florianópolis";
-		} else if (opcaoAgencia == 2) {
-			codigo = "002";
-			cidade = "São José";
-		}
-		Agencia agencia = new Agencia(codigo, cidade);
-		ContaPoupanca contaPoupanca = new ContaPoupanca(nomeCompleto, cpf, rendaMensal, agencia, 0.0);
-		DAOFake.contasPoupancaCadastradas.add(contaPoupanca);
-
-		System.out.println("Conta Poupança cadastrada com sucesso!!!");
-
-		return geralController.menuPrincipal();
-	}
-
-	public Object cadastrarContaInvestimento() {
-		System.out.println("### Cadastro de Conta Investimento ###");
-		String nomeCompleto = geralController.getInputNome().toString();
-		String cpf = geralController.getInputCPF().toString();
-		Double rendaMensal = Double.parseDouble(geralController.getInputRendaMensal().toString());
-		int opcaoAgencia = (int) geralController.getAgencia();
-		String codigo = null;
-		String cidade = null;
-
-		if (opcaoAgencia == 1) {
-			codigo = "001";
-			cidade = "Florianópolis";
-		} else if (opcaoAgencia == 2) {
-			codigo = "002";
-			cidade = "São José";
-		}
-		Agencia agencia = new Agencia(codigo, cidade);
-		ContaInvestimento contaInvestimento = new ContaInvestimento(nomeCompleto, cpf, rendaMensal, agencia, 0.0);
-
-		DAOFake.contasInvestimentoCadastradas.add(contaInvestimento);
-
-		System.out.println("Conta Investimento cadastrada com sucesso!!!");
-
-		return geralController.menuPrincipal();
 	}
 
 	public Object menuOpcoesContaCorrente() {
@@ -166,7 +113,6 @@ public class ContaCorrenteController {
 	public Object getInputContaCorrente() {
 		boolean validador = false;
 		int numeroConta = 0;
-		geralController = new GeralController();
 		
 		do {
 			System.out.println("Digite o numero da conta:");
@@ -207,7 +153,7 @@ public class ContaCorrenteController {
 				contaCorrente.salvarTransacao(transacao);
 				System.out.println("Depósito no valor de R$ " + valorDeposito + " realizado com sucesso!!!");
 			}else {
-				System.out.println("Depósito não realizado !!! Falha no saque!!!");
+				System.out.println("Depósito não realizado !!! Falha no depósito!!!");
 			}
 		}else {
 			System.out.println("Depósito não realizado !!! Operação não permitida!!!");
@@ -232,7 +178,8 @@ public class ContaCorrenteController {
 	
 	public Object acessarCadastrarConta() {
 		int opcaoMenu = 0;
-
+		System.out.println("### Menu Conta Corrente ###");
+		geralController = new GeralController();
 		do {
 			menu.menuCadastrarAcessarConta();
 			try {
@@ -244,7 +191,6 @@ public class ContaCorrenteController {
 					return this.acessarConta();
 				} else if (opcaoMenu == 3) {
 					return geralController.menuPrincipal(); 
-					
 				} else {
 					System.out.println("Opção digitada é inválida!!! Digite uma opção válida do Menu!!!");
 				}
@@ -273,24 +219,31 @@ public class ContaCorrenteController {
 	public Object transferenviaContaCorrente() throws NumberFormatException {
 		System.out.println("### TRANSFERENCIA CONTA CORRENTE ###");
 		
-		Conta contaTransferir = (Conta) geralController.getInputContaTransferir();
-		String valorTransferir = geralController.getInputValor().toString();
+		LocalDate dtAgora = LocalDate.now();
+		String diaSemana = dtAgora.getDayOfWeek().toString();
 		
-		
-		if(contaCorrente.transferir(contaCorrente, contaTransferir, Double.parseDouble(valorTransferir))) {
-			if(contaCorrenteDAO.atualizarConta(contaCorrente)) {
-				if(DAOFake.atualizarSaldo(contaTransferir)) {
-					Transacao transacao = new Transacao(LocalDate.now(), contaCorrente, contaTransferir, Double.parseDouble(valorTransferir), "TRANSFERENCIA");
-					contaCorrente.salvarTransacao(transacao);
-					System.out.println("Tranferência do valor R$ " + valorTransferir +" para a conta " + contaTransferir.getConta() + " foi realizado com sucesso!!!");
+		if(!diaSemana.equals("SATURDAY") && !diaSemana.equals("SUNDAY")) {
+			Conta contaTransferir = (Conta) geralController.getInputContaTransferir();
+			String valorTransferir = geralController.getInputValor().toString();
+			
+			
+			if(contaCorrente.transferir(contaCorrente, contaTransferir, Double.parseDouble(valorTransferir))) {
+				if(contaCorrenteDAO.atualizarConta(contaCorrente)) {
+					if(DAOFake.atualizarSaldo(contaTransferir)) {
+						Transacao transacao = new Transacao(LocalDate.now(), contaCorrente, contaTransferir, Double.parseDouble(valorTransferir), "TRANSFERENCIA");
+						contaCorrente.salvarTransacao(transacao);
+						System.out.println("Tranferência do valor R$ " + valorTransferir +" para a conta " + contaTransferir.getConta() + " foi realizado com sucesso!!!");
+					}else {
+						System.out.println("Falha ao atualizar o saldo da conta destino!!!");
+					}
 				}else {
-					System.out.println("Falha ao atualizar o saldo da conta destino!!!");
+					System.out.println("Falha ao atualizar o saldo da conta origem!!!");
 				}
 			}else {
-				System.out.println("Falha ao atualizar o saldo da conta origem!!!");
+				System.out.println("Não foi possível realizar a tranferência do valor R$ " + valorTransferir +" para a conta " + contaTransferir.getConta() + " .");
 			}
 		}else {
-			System.out.println("Não foi possível realizar a tranferência do valor R$ " + valorTransferir +" para a conta " + contaTransferir.getConta() + " .");
+			System.out.println("Não é permitido realizar transferência de SÁBADO/DOMINGO");
 		}
 		
 		geralController.continuarSair();

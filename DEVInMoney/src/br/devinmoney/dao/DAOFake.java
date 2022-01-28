@@ -12,6 +12,7 @@ public class DAOFake {
 	public static ArrayList<ContaCorrente> contasCorrenteCadastradas = new ArrayList<ContaCorrente>();
 	public static ArrayList<ContaPoupanca> contasPoupancaCadastradas = new ArrayList<ContaPoupanca>();
 	public static ArrayList<ContaInvestimento> contasInvestimentoCadastradas = new ArrayList<ContaInvestimento>();
+	public static ArrayList<Double> totalValorInvestido = new ArrayList<Double>();
 
 	
 	public static boolean atualizarSaldo(Conta conta) {
@@ -35,4 +36,6 @@ public class DAOFake {
 		}
 		return false;
 	}
+	
+
 }

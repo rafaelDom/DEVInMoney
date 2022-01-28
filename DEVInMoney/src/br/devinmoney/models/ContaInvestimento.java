@@ -47,9 +47,13 @@ private List<Transacao> extratoConta = new ArrayList<Transacao>();
 	@Override
 	public boolean transferir(Conta contaOrigem, Conta contaDestino, Double valor){
 		if(!contaDestino.equals(contaOrigem)) {
-			contaDestino.setSaldo(contaDestino.getSaldo() + valor);
-			contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
-			return true;
+			if(contaOrigem.getSaldo() >= valor) {
+				contaDestino.setSaldo(contaDestino.getSaldo() + valor);
+				contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
+				return true;
+			}else {
+				System.out.println("Limite não autorizado para transferência!!!");
+			}
 		}
 		return false;
 	}
@@ -89,17 +93,24 @@ private List<Transacao> extratoConta = new ArrayList<Transacao>();
 		valorRendimentoAnual = this.getSaldo() * (investimento.getRendimentoAnual() / 100);
 		
 		System.out.println("O valor do rendimento anual para o investimento " + investimento.name() + " com a rentabilidade anual de " + investimento.getRendimentoAnual() + " é de: " + String.format("%.2f", valorRendimentoAnual));
-		System.out.println("Com base no saldo atual de: " + this.getSaldo());
+		System.out.println("Com base no saldo atual de R$ " + this.getSaldo());
 		
 	}
 	
 	@Override
-	public void realizarInvestimento(Investimento investimento, Double valor) {
+	public boolean realizarInvestimento(ContaInvestimento conta, Investimento investimento, Double valor) {
 		Double valorRendimentoAnual;
-		valorRendimentoAnual = valor * (investimento.getRendimentoAnual() / 100);
-		
-		System.out.println("O valor do investimento é: " + valor + " com a rentabilidade anual de " + investimento.getRendimentoAnual());
-		System.out.println("Esse valor renderá anualmente: " + String.format("%.2f", valorRendimentoAnual));
+		if(conta.getSaldo() >= valor) {
+			valorRendimentoAnual = valor * (investimento.getRendimentoAnual() / 100);
+			
+			System.out.println("O valor do investimento é: " + valor + " com a rentabilidade anual de " + investimento.getRendimentoAnual());
+			System.out.println("Esse valor renderá anualmente: " + String.format("%.2f", valorRendimentoAnual));
+			conta.setSaldo(conta.getSaldo() - valor);
+			return true;
+		}else {
+			System.out.println("Saldo insuficiente para realizar o investimento!!!");
+			return false;
+		}
 		
 	}
 

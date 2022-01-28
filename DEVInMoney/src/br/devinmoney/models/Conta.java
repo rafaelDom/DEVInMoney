@@ -24,6 +24,7 @@ public abstract class Conta {
 		this.saldo = saldo;
 		this.conta = GeradorConta.getProximaConta();
 		System.out.println("### O número da Conta Gerado é: " + this.conta + " ###" );
+		System.out.println("### Guarde esse número para acessar as operações disponiveis para a conta " + this.conta + " ###" );
 	}
 	
 	public String getNome() {

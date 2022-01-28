@@ -44,9 +44,13 @@ public class ContaCorrente extends Conta implements IConta, IChequeEspecial{
 	@Override
 	public boolean transferir(Conta contaOrigem, Conta contaDestino, Double valor){
 		if(!contaDestino.equals(contaOrigem)) {
-			contaDestino.setSaldo(contaDestino.getSaldo() + valor);
-			contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
-			return true;
+			if(contaOrigem.getSaldo() + this.limiteChequeEspecial(contaOrigem.getRendaMensal()) >= valor) {
+				contaDestino.setSaldo(contaDestino.getSaldo() + valor);
+				contaOrigem.setSaldo(contaOrigem.getSaldo() - valor);
+				return true;
+			}else {
+				System.out.println("Limite não autorizado para transferência!!!");
+			}
 		}
 		return false;
 	}
